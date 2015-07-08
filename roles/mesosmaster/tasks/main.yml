@@ -1,0 +1,7 @@
+---
+- name: install mesos and marathon
+  yum: state=present name={{item}}
+  with_items:
+    - mesos
+    - marathon
+  

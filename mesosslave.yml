@@ -1,0 +1,5 @@
+---
+- hosts: mesosslave
+  roles:
+    - mesos
+    - mesosslave

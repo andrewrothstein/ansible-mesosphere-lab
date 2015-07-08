@@ -1,0 +1,3 @@
+---
+- name: add the mesosphere repo
+  yum: state=present name='http://repos.mesosphere.io/el/7/noarch/RPMS/mesosphere-el-repo-7-1.noarch.rpm'

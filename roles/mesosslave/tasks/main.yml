@@ -1,0 +1,3 @@
+---
+- name: install mesos
+  yum: state=present name=mesos
