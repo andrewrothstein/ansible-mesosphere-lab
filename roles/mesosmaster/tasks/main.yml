@@ -4,4 +4,26 @@
   with_items:
     - mesos
     - marathon
+
+- name: install /etc/mesos/zk
+  template: >
+    src=etc/mesos/zk.j2
+    dest=/etc/mesos/zk
+    owner=root
+    group=root
+    mode=0644
+
+- name: install /etc/mesos-master/quorum
+  template: >
+    src=etc/mesos-master/quorum.j2
+    dest=/etc/mesos-master/quorum
+    owner=root
+    group=root
+    mode=0644
+
+- name: start mesos-master service
+  service: name={{item}} enabled=yes state=restarted
+  with_items:
+    - mesos-master
+    - marathon
   
