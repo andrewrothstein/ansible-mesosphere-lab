@@ -22,7 +22,7 @@
     mode=0644
 
 - name: start mesos-master service
-  service: name={{item}} enabled=yes state=restarted
+  service: name={{item}} enabled=yes state=started
   with_items:
     - mesos-master
     - marathon

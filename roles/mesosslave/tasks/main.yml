@@ -1,3 +1,16 @@
 ---
 - name: install mesos
   yum: state=present name=mesos
+
+- name: install /etc/mesos/zk
+  template: >
+    src=etc/mesos/zk.j2
+    dest=/etc/mesos/zk
+    owner=root
+    group=root
+    mode=0644
+
+- name: start mesos-slave service
+  service: name={{item}} enabled=yes state=started
+  with_items:
+    - mesos-slave
