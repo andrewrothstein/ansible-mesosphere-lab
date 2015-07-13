@@ -1,5 +1,6 @@
 ---
 - hosts: zookeeper
   roles:
+    - mesos
     - zookeeper
 

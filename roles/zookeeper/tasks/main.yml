@@ -1,6 +1,11 @@
 ---
-- name: install zookeeper
+- name: (RedHat,Fedora,Centos)(7) install zookeeper
+  when: ansible_distribution == 'Fedora' or ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
   yum: state=present name=mesosphere-zookeeper
+
+- name: (Ubuntu,Debian) install zookeeper
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  apt: state=present name=mesos
 
 - name: set myid
   template: >
