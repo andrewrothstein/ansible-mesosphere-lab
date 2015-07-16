@@ -1,6 +1,14 @@
 ---
-- name: install mesos and marathon
+- name: (Fedora, CentOS, RedHat)install mesos and marathon
+  when: ansible_distribution == 'Fedora' or ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
   yum: state=present name={{item}}
+  with_items:
+    - mesos
+    - marathon
+
+- name: (Ubuntu, Debian) install mesos and marathon
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  apt: state=present name={{item}}
   with_items:
     - mesos
     - marathon
