@@ -1,5 +1,5 @@
 ---
-- name: (Fedora, CentOS, RedHat)install mesos and marathon
+- name: (Fedora, CentOS, RedHat) install mesos and marathon
   when: ansible_distribution == 'Fedora' or ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
   yum: state=present name={{item}}
   with_items:
@@ -17,6 +17,14 @@
   template: >
     src=etc/mesos-master/quorum.j2
     dest=/etc/mesos-master/quorum
+    owner=root
+    group=root
+    mode=0644
+
+- name: install /etc/mesos-master/ip
+  template: >
+    src=etc/mesos-master/ip.j2
+    dest=/etc/mesos-master/ip
     owner=root
     group=root
     mode=0644
