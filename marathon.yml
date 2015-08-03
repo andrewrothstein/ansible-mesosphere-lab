@@ -1,0 +1,6 @@
+---
+- hosts: marathon
+  roles:
+    - mesos
+    - marathon
+

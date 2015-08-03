@@ -3,3 +3,4 @@
 - include: zookeeper.yml
 - include: mesosmaster.yml
 - include: mesosslave.yml
+- include: marathon.yml
