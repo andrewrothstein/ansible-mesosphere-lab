@@ -28,5 +28,5 @@ dataDir=/var/lib/zookeeper
 clientPort=2181
 
 {% for host in groups['zookeeper'] %}
-server.{{hostvars[host]['zkid']}}={{hostvars[host]['ansible_eth1']['ipv4']['address']}}:2888:3888
+server.{{hostvars[host]['zkid']}}={{hostvars[host]['ansible_default_ipv4']['address']}}:2888:3888
 {% endfor %}

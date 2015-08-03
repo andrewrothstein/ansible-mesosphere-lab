@@ -1,6 +1,11 @@
 ---
-- name: install mesos
+- name: (Fedora, CentOS, RedHat) install mesos
+  when: ansible_distribution == 'Fedora' or ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
   yum: state=present name=mesos
+
+- name: (Ubuntu, Debian) install mesos
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  apt: state=present name=mesos
 
 - name: start mesos-slave service
   service: name={{item}} enabled=yes state=started
