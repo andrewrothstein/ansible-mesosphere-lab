@@ -1,0 +1,6 @@
+---
+- hosts: chronos
+  roles:
+    - mesos
+    - chronos
+

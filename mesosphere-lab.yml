@@ -4,3 +4,4 @@
 - include: mesosmaster.yml
 - include: mesosslave.yml
 - include: marathon.yml
+- include: chronos.yml
