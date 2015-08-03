@@ -7,6 +7,17 @@
   when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
   apt: state=present name=mesos
 
+- name: install /etc/mesos-slave/* files
+  template: >
+    src=etc/mesos-slave/{{item}}.j2
+    dest=/etc/mesos-slave/{{item}}
+    owner=root
+    group=root
+    mode=0644
+  with_items:
+    - hostname
+    - ip
+  
 - name: start mesos-slave service
   service: name={{item}} enabled=yes state=started
   with_items:

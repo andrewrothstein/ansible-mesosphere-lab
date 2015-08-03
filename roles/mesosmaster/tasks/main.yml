@@ -13,14 +13,36 @@
     - mesos
     - marathon
 
-- name: install /etc/mesos-master/quorum
+- name: install /etc/mesos-master/* files
   template: >
-    src=etc/mesos-master/quorum.j2
-    dest=/etc/mesos-master/quorum
+    src=etc/mesos-master/{{item}}.j2
+    dest=/etc/mesos-master/{{item}}
     owner=root
     group=root
     mode=0644
+  with_items:
+    - quorum
+    - hostname
+    - ip
 
+- name: create /etc/marathon/conf
+  file: >-
+    owner=root
+    group=root
+    mode="go-w"
+    path=/etc/marathon/conf
+    state=directory
+    
+- name: install /etc/marathon/conf/* files
+  template: >
+    src=etc/marathon/conf/{{item}}.j2
+    dest=/etc/marathon/conf/{{item}}
+    owner=root
+    group=root
+    mode=0644
+  with_items:
+    - hostname
+    
 - name: start mesos-master service
   service: name={{item}} enabled=yes state=started
   with_items:
