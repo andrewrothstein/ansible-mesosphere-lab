@@ -1,11 +1,12 @@
 ---
-- name: (Fedora, CentOS, RedHat) install zookeeper
+- name: create /etc/zookeeper/conf
   when: ansible_distribution == 'Fedora' or ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
-  yum: state=present name=mesosphere-zookeeper
-
-- name: (Ubuntu, Debian) install zookeeper
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
-  apt: state=present name=mesos
+  file: >-
+    owner=root
+    group=root
+    mode="go-w"
+    path=/var/lib/zookeeper
+    state=directory
 
 - name: (Fedora, CentOS, RedHat) set myid
   when: ansible_distribution == 'Fedora' or ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
@@ -16,22 +17,36 @@
     group=root
     mode=0644
 
-- name: (Ubuntu, Debian) set myid
+- name: create /etc/zookeeper/conf
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  file: >-
+    owner=root
+    group=root
+    mode="go-w"
+    path=/etc/zookeeper/conf
+    state=directory
+
+- name: (Ubuntu, Debian) set myid, install zoo.cfg
   when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
   template: >
-    src=etc/zookeeper/conf/myid.j2
-    dest=/etc/zookeeper/conf/myid
-    owner=zookeeper
-    group=zookeeper
-    mode=0644
-
-- name: install zoo.cfg
-  template: >
-    src=etc/zookeeper/conf/zoo.cfg.j2
-    dest=/etc/zookeeper/conf/zoo.cfg
+    src=etc/zookeeper/conf/{{item}}.j2
+    dest=/etc/zookeeper/conf/{{item}}
     owner=root
     group=root
     mode=0644
+  with_items:
+    - myid
+    - zoo.cfg
+    - log4j.properties
+    - environment
+
+- name: (Fedora, CentOS, RedHat) install zookeeper
+  when: ansible_distribution == 'Fedora' or ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+  yum: state=present name=mesosphere-zookeeper
+
+- name: (Ubuntu, Debian) install zookeeper
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  apt: state=present name=mesos
 
 - name: launch zookeeper
-  service: name=zookeeper enabled=yes state=started
+  service: name=zookeeper enabled=yes state=restarted

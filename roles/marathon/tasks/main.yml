@@ -1,16 +1,4 @@
 ---
-- name: (Fedora, CentOS, RedHat) install marathon
-  when: ansible_distribution == 'Fedora' or ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
-  yum: state=present name={{item}}
-  with_items:
-    - marathon
-
-- name: (Ubuntu, Debian) install marathon
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
-  apt: state=present name={{item}}
-  with_items:
-    - marathon
-
 - name: create /etc/marathon/conf
   file: >-
     owner=root
@@ -28,9 +16,23 @@
     mode=0644
   with_items:
     - hostname
+    - master
+    - zk
     
+- name: (Fedora, CentOS, RedHat) install marathon
+  when: ansible_distribution == 'Fedora' or ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+  yum: state=present name={{item}}
+  with_items:
+    - marathon
+
+- name: (Ubuntu, Debian) install marathon
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  apt: state=present name={{item}}
+  with_items:
+    - marathon
+
 - name: start marathon service
-  service: name={{item}} enabled=yes state=started
+  service: name={{item}} enabled=yes state=restarted
   with_items:
     - marathon
   

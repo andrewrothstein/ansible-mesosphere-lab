@@ -1,16 +1,4 @@
 ---
-- name: (RedHat,Fedora,Centos)(7) add the mesosphere repo
-  when: ansible_distribution == 'Fedora' or ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
-  yum: state=present name='http://repos.mesosphere.io/el/7/noarch/RPMS/mesosphere-el-repo-7-1.noarch.rpm'
-
-- name: (Ubuntu,Debian) add the mesosphere repo key
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
-  apt_key: keyserver=keyserver.ubuntu.com id=E56151BF
-
-- name: (Ubuntu,Debian) add the mesosphere repo
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
-  apt_repository: repo='deb http://repos.mesosphere.io/ubuntu trusty main' update_cache=yes state=present
-
 - name: mkdir /etc/mesos
   file: >
     owner="root"
@@ -26,4 +14,21 @@
     owner=root
     group=root
     mode=0644
+
+- name: (RedHat,Fedora,Centos)(7) add the mesosphere repo
+  when: ansible_distribution == 'Fedora' or ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+  yum: >
+    state=present
+    name='http://repos.mesosphere.io/el/7/noarch/RPMS/mesosphere-el-repo-7-1.noarch.rpm'
+
+- name: (Ubuntu,Debian) add the mesosphere repo key
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  apt_key: keyserver=keyserver.ubuntu.com id=E56151BF
+
+- name: (Ubuntu,Debian) add the mesosphere repo
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  apt_repository: >
+    state=present
+    repo='deb http://repos.mesosphere.io/ubuntu trusty main'
+    update_cache=yes
 

@@ -1,16 +1,4 @@
 ---
-- name: (Fedora, CentOS, RedHat) install chronos
-  when: ansible_distribution == 'Fedora' or ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
-  yum: state=present name={{item}}
-  with_items:
-    - chronos
-
-- name: (Ubuntu, Debian) install chronos
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
-  apt: state=present name={{item}}
-  with_items:
-    - chronos
-
 - name: create /etc/chronos/conf
   file: >-
     owner=root
@@ -29,8 +17,20 @@
   with_items:
     - hostname
     
+- name: (Fedora, CentOS, RedHat) install chronos
+  when: ansible_distribution == 'Fedora' or ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+  yum: state=present name={{item}}
+  with_items:
+    - chronos
+
+- name: (Ubuntu, Debian) install chronos
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  apt: state=present name={{item}}
+  with_items:
+    - chronos
+
 - name: start chronos service
-  service: name={{item}} enabled=yes state=started
+  service: name={{item}} enabled=yes state=restarted
   with_items:
     - chronos
   
