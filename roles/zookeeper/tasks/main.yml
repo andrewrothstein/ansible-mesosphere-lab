@@ -1,6 +1,6 @@
 ---
-- name: create /etc/zookeeper/conf
-  when: ansible_distribution == 'Fedora' or ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+- name: (RedHat) create /var/lib/zookeeper
+  when: ansible_os_family == 'RedHat'
   file: >-
     owner=root
     group=root
@@ -8,8 +8,8 @@
     path=/var/lib/zookeeper
     state=directory
 
-- name: (Fedora, CentOS, RedHat) set myid
-  when: ansible_distribution == 'Fedora' or ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+- name: (RedHat) set myid
+  when: ansible_os_family == 'RedHat'
   template: >
     src=var/lib/zookeeper/myid.j2
     dest=/var/lib/zookeeper/myid
@@ -18,7 +18,6 @@
     mode=0644
 
 - name: create /etc/zookeeper/conf
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
   file: >-
     owner=root
     group=root
@@ -26,8 +25,8 @@
     path=/etc/zookeeper/conf
     state=directory
 
-- name: (Ubuntu, Debian) set myid, install zoo.cfg
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+- name: (Debian) set myid, install zoo.cfg
+  when: ansible_os_family == 'Debian'
   template: >
     src=etc/zookeeper/conf/{{item}}.j2
     dest=/etc/zookeeper/conf/{{item}}
@@ -40,12 +39,25 @@
     - log4j.properties
     - environment
 
-- name: (Fedora, CentOS, RedHat) install zookeeper
-  when: ansible_distribution == 'Fedora' or ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+- name: (RedHat) install zoo.cfg, etc.
+  when: ansible_os_family == 'RedHat'
+  template: >
+    src=etc/zookeeper/conf/{{item}}.j2
+    dest=/etc/zookeeper/conf/{{item}}
+    owner=root
+    group=root
+    mode=0644
+  with_items:
+    - zoo.cfg
+    - log4j.properties
+    - environment
+
+- name: (RedHat) install zookeeper
+  when: ansible_os_family == 'RedHat'
   yum: state=present name=mesosphere-zookeeper
 
-- name: (Ubuntu, Debian) install zookeeper
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+- name: (Debian) install zookeeper
+  when: ansible_os_family == 'Debian'
   apt: state=present name=mesos
 
 - name: launch zookeeper
