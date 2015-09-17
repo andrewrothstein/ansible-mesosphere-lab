@@ -1,64 +1,11 @@
 ---
-- name: (RedHat) create /var/lib/zookeeper
+- name: (RedHat) configure...
   when: ansible_os_family == 'RedHat'
-  file: >-
-    owner=root
-    group=root
-    mode="go-w"
-    path=/var/lib/zookeeper
-    state=directory
+  include: 'RedHat.yml'
 
-- name: (RedHat) set myid
-  when: ansible_os_family == 'RedHat'
-  template: >
-    src=var/lib/zookeeper/myid.j2
-    dest=/var/lib/zookeeper/myid
-    owner=root
-    group=root
-    mode=0644
-
-- name: create /etc/zookeeper/conf
-  file: >-
-    owner=root
-    group=root
-    mode="go-w"
-    path=/etc/zookeeper/conf
-    state=directory
-
-- name: (Debian) set myid, install zoo.cfg
+- name: (Debian) configure...
   when: ansible_os_family == 'Debian'
-  template: >
-    src=etc/zookeeper/conf/{{item}}.j2
-    dest=/etc/zookeeper/conf/{{item}}
-    owner=root
-    group=root
-    mode=0644
-  with_items:
-    - myid
-    - zoo.cfg
-    - log4j.properties
-    - environment
-
-- name: (RedHat) install zoo.cfg, etc.
-  when: ansible_os_family == 'RedHat'
-  template: >
-    src=etc/zookeeper/conf/{{item}}.j2
-    dest=/etc/zookeeper/conf/{{item}}
-    owner=root
-    group=root
-    mode=0644
-  with_items:
-    - zoo.cfg
-    - log4j.properties
-    - environment
-
-- name: (RedHat) install zookeeper
-  when: ansible_os_family == 'RedHat'
-  yum: state=present name=mesosphere-zookeeper
-
-- name: (Debian) install zookeeper
-  when: ansible_os_family == 'Debian'
-  apt: state=present name=mesos
+  include: 'Debian.yml'
 
 - name: launch zookeeper
   service: name=zookeeper enabled=yes state=restarted
