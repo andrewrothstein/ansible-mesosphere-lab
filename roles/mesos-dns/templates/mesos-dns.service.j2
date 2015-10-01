@@ -1,0 +1,8 @@
+[Unit]
+Description=mesos-dns resolver
+After=mesos-slave.service
+Requires=mesos-slave.service
+
+[Service]
+TimeoutStartSec=0
+ExecStart=/usr/local/bin/mesos-dns --config={{mesos_dns_config_json}}
