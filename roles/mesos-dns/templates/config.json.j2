@@ -1,5 +1,4 @@
 {
-    "zk": "zk://{% for host in groups['zookeeper'] %}{{hostvars[host]['ansible_default_ipv4']['address']}}:2181{% if not loop.last %},{% endif %}{% endfor %}/mesos/",
     "masters": [{% for host in groups['mesosmaster'] %}"{{hostvars[host]['ansible_default_ipv4']['address']}}:5050"{% if not loop.last %},{% endif %}{% endfor %}],
     "refreshSeconds": 60,
     "ttl": 60,
