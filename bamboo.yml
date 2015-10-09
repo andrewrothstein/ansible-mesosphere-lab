@@ -1,0 +1,4 @@
+---
+- hosts: bamboo
+  roles:
+    - bamboo

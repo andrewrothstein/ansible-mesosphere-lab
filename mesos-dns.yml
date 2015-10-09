@@ -1,4 +1,4 @@
 ---
-- hosts: mesosslave
+- hosts: mesos-dns
   roles:
     - mesos-dns
