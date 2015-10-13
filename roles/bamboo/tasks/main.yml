@@ -3,6 +3,7 @@
   docker:
     name: bamboo
     image: andrewrothstein/bamboo:blade
+    pull: always
     env:
       MARATHON_ENDPOINT : "{% for host in groups['marathon'] %}http://{{hostvars[host]['ansible_default_ipv4']['address']}}:8080{% if not loop.last %},{% endif %}{% endfor %}"
       BAMBOO_ENDPOINT : 'http://bamboo:8000'
