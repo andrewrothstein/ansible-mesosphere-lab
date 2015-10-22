@@ -1,35 +1,11 @@
 ---
-- name: create /etc/mesos-master
-  file: >-
-    owner=root
-    group=root
-    mode="go-w"
-    path=/etc/mesos-master
-    state=directory
+- name: EL...
+  when: ansible_os_family == 'RedHat'
+  include: EL.yml
 
-- name: install /etc/mesos-master/* files
-  template: >
-    src=etc/mesos-master/{{item}}.j2
-    dest=/etc/mesos-master/{{item}}
-    owner=root
-    group=root
-    mode=0644
-  with_items:
-    - quorum
-    - hostname
-    - ip
-
-- name: (Fedora, CentOS, RedHat) install mesos
-  when: ansible_distribution == 'Fedora' or ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
-  yum: state=present name={{item}}
-  with_items:
-    - mesos
-
-- name: (Ubuntu, Debian) install mesos
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
-  apt: state=present name={{item}}
-  with_items:
-    - mesos
+- name: Debian...
+  when: ansible_os_family == 'Debian'
+  include: Debian.yml
 
 - name: start mesos-master service
   service: name={{item}} enabled=yes state=restarted
