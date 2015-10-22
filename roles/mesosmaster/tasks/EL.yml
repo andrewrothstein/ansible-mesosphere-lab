@@ -1,5 +1,5 @@
 ---
-- name: install mesos
+- name: install mesosmaster
   yum: state=present name={{item}}
   with_items:
     - mesos
