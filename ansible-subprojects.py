@@ -3,7 +3,8 @@
 import os
 from subprocess import call
 
-github_root = "/home/arothste/git/github/andrewrothstein"
+
+github_root = os.environ['HOME'] + "/git/github/andrewrothstein"
 ansible_playbooks_dir = github_root + "/ansible-mesosphere-lab"
 ansible_playbooks_roles_dir = ansible_playbooks_dir + "/roles"
 
@@ -12,7 +13,7 @@ addl_files_to_copy = ["LICENSE", "README.md", ".gitignore", "test.yml", "meta/ma
 
 def create_git_repo(role) :
   print "creating repo for role " + role
-  github_repos_dir = "/home/arothste/git/github-target"
+  github_repos_dir = os.environ['HOME'] + "/git/github-target"
   src_role_path = ansible_playbooks_roles_dir + "/" + role
   target_role_name = "ansible-mesosphere-" + role
   target_role_path = github_repos_dir + "/" + target_role_name
