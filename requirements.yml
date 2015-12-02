@@ -1,0 +1,8 @@
+---
+- src: andrewrothstein.mesosphere-zookeeper
+- src: andrewrothstein.mesosphere-mesos
+- src: andrewrothstein.mesosphere-mesosmaster
+- src: andrewrothstein.mesosphere-mesosslave
+- src: andrewrothstein.mesosphere-marathon
+- src: andrewrothstein.mesosphere-chronos
+- src: andrewrothstein.mesosphere-mesos-dns

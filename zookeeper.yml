@@ -1,6 +1,6 @@
 ---
 - hosts: zookeeper
   roles:
-    - mesos
-    - zookeeper
+    - andrewrothstein.mesosphere-mesos
+    - andrewrothstein.mesosphere-zookeeper
 

@@ -1,6 +1,6 @@
 ---
 - hosts: marathon
   roles:
-    - mesos
-    - marathon
+    - andrewrothstein.mesosphere-mesos
+    - andrewrothstein.mesosphere-marathon
 

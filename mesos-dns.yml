@@ -1,4 +1,4 @@
 ---
 - hosts: mesos-dns
   roles:
-    - mesos-dns
+    - andrewrothstein.mesosphere-mesos-dns

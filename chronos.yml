@@ -1,6 +1,6 @@
 ---
 - hosts: chronos
   roles:
-    - mesos
-    - chronos
+    - andrewrothstein.mesosphere-mesos
+    - andrewrothstein.mesosphere-chronos
 

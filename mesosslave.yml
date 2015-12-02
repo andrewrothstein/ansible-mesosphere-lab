@@ -1,5 +1,5 @@
 ---
 - hosts: mesosslave
   roles:
-    - mesos
-    - mesosslave
+    - andrewrothstein.mesosphere-mesos
+    - andrewrothstein.mesosphere-mesosslave

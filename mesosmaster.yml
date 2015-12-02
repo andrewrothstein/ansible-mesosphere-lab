@@ -1,6 +1,6 @@
 ---
 - hosts: mesosmaster
   roles:
-    - mesos
-    - mesosmaster
+    - andrewrothstein.mesosphere-mesos
+    - andrewrothstein.mesosphere-mesosmaster
 
