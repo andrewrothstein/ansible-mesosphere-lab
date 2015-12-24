@@ -1,8 +1,10 @@
 ---
 
+- include: docker.yml
 - include: zookeeper.yml
 - include: mesosmaster.yml
 - include: mesosslave.yml
 - include: marathon.yml
 - include: chronos.yml
 - include: mesos-dns.yml
+- include: elasticsearch.yml
